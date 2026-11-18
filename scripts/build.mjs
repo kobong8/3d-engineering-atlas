@@ -77,6 +77,31 @@ const references = {
   "19": "https://www.ogc.org/standard/3dtiles/",
   "20": "https://www.w3.org/TR/WCAG22/",
 };
+const stages = [
+  { id: "stage-basics", name: "좌표와 공간의 기초", end: 7 },
+  { id: "stage-render", name: "렌더링과 공간 탐색", end: 14 },
+  { id: "stage-apply", name: "데이터, 구현과 검증", end: 20 },
+];
+const summaries = [
+  "벡터, 행렬과 회전의 기본 계산", "로컬 좌표에서 화면 픽셀까지", "정점과 인덱스로 면을 구성하는 원리",
+  "단면을 밀고 메시를 편집하는 방법", "경계 상자와 공간 인덱스로 후보 줄이기", "접촉·겹침·통과 여부 판정",
+  "시야각, 투영과 화면 선택", "반사, 그림자와 화면 색", "정점 처리에서 화면 출력까지",
+  "인스턴싱과 프레임 성능 측정", "격자로 나눈 공간과 해상도", "A*와 Dijkstra로 경로 비교",
+  "제약을 충족하는 배치 후보 찾기", "고정 시간 간격과 애니메이션", "모형, 공간 좌표와 객체 데이터 연결",
+  "3D 파일의 변환, 압축과 로딩", "객체 선택, 스냅과 편집 기록", "시야, 열지도와 거리 분석",
+  "가상 장면에서 결과를 검증하는 방법", "테스트, 성능과 접근성 점검",
+];
+function trackDirectory() {
+  return stages.map(({ id, name, end }, index) => {
+    const start = stages[index - 1]?.end ?? 0;
+    const cards = tracks.slice(start, end).map((track, offset) => `<li data-track="${track.id}"><a href="#${track.id}">
+        <span class="track-number">${track.number}</span>
+        <strong>${escape(track.title.replace(/^\d{2}\. /, ""))}</strong>
+        <span class="track-description">${summaries[start + offset]}</span>
+      </a></li>`).join("\n");
+    return `<section class="track-group" id="${id}"><h3>${name}</h3><ul class="track-grid">${cards}</ul></section>`;
+  }).join("\n");
+}
 const link = section => `<a href="#${section.id}">${escape(section.title)}</a>`;
 const lessons = sections.map(section => {
   const demos = (labs[section.number] ?? []).map(([id, title]) => `<a class="button" href="./labs.html#${id}">${title} 실습</a>`).join("");
@@ -88,7 +113,7 @@ const lessons = sections.map(section => {
 }).join("\n");
 const template = readFileSync(new URL("./index.template.html", import.meta.url), "utf8");
 writeFileSync(new URL("../index.html", import.meta.url), template
-  .replace("<!-- TRACKS -->", () => tracks.map(track => `<li data-track="${track.id}">${link(track)}</li>`).join("\n"))
+  .replace("<!-- TRACKS -->", trackDirectory)
   .replace("<!-- OUTLINE -->", () => sections.map(section => `<li>${link(section)}</li>`).join("\n"))
   .replace("<!-- OPTIONS -->", () => sections.map(section => `<option value="${section.id}">${escape(section.title)}</option>`).join("\n"))
   .replace("<!-- LESSONS -->", () => lessons));
