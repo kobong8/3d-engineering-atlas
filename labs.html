@@ -4,22 +4,29 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>3D 실습실 · 3D Engineering Atlas</title>
+  <script src="./assets/theme.js?v=lecture"></script>
   <link rel="stylesheet" href="./assets/kobong.css">
-  <link rel="stylesheet" href="./assets/atlas.css">
+  <link rel="stylesheet" href="./assets/atlas.css?v=lecture">
   <script defer src="./assets/vendor/babylon.js"></script>
   <script type="module" src="./assets/atlas.js"></script>
 </head>
 <body>
   <a class="skip" href="#lessons">실습으로 건너뛰기</a>
-  <main class="atlas">
-    <div class="masthead">
-      <a class="wordmark" href="./">KOBONG / 3D ATLAS</a>
-      <button id="mode" aria-pressed="false">발표 모드</button>
+  <header class="series-bar">
+    <a class="series-brand" href="./"><span aria-hidden="true">3D</span> ATLAS / FIELDNOTES</a>
+    <nav class="series-nav" aria-label="관련 강의">
+      <a href="https://kobong8.github.io/lecture-devops/">DevOps</a>
+    </nav>
+    <div class="series-tools">
+      <button type="button" data-theme-toggle hidden>다크 모드</button>
+      <a class="button" href="./#tracks">강의 목록</a>
     </div>
+  </header>
+  <main class="atlas">
     <section class="intro">
       <h1>3D 실습실</h1>
       <p>3D 객체가 좌표와 삼각형으로 표현되는 방식부터 공간 분석, 렌더링, 시뮬레이션까지 학습합니다.</p>
-      <nav aria-label="실습 목차">
+      <nav class="lab-index" aria-label="실습 목차">
         <a href="#coordinates">좌표계</a>
         <a href="#mesh">Vertex / Index</a>
         <a href="#bounds">Bounding Box</a>
@@ -32,6 +39,7 @@
         <a href="#layout">블록 배치 후보</a>
       </nav>
     </section>
+    <div class="lab-toolbar"><button id="mode" aria-pressed="false">발표 모드</button></div>
     <div id="lessons">
       <section class="lesson" id="coordinates">
         <div>

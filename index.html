@@ -5,62 +5,152 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="3D 수학, 메시, GPU 렌더링, 공간 탐색과 디지털 트윈을 배우는 Kobong 학습 아틀라스">
   <title>3D Engineering Atlas</title>
+  <script src="./assets/theme.js?v=lecture"></script>
   <link rel="stylesheet" href="./assets/kobong.css">
-  <link rel="stylesheet" href="./assets/atlas.css">
-  <link rel="stylesheet" href="./assets/curriculum.css">
-  <script type="module" src="./assets/curriculum.js"></script>
+  <link rel="stylesheet" href="./assets/atlas.css?v=lecture">
+  <link rel="stylesheet" href="./assets/curriculum.css?v=lecture">
+  <script type="module" src="./assets/curriculum.js?v=lecture"></script>
 </head>
 <body class="curriculum">
   <a class="skip" href="#tracks">강의 목차로 건너뛰기</a>
-  <main class="atlas">
-    <div class="masthead">
-      <a class="wordmark" href="./">KOBONG / 3D ATLAS</a>
+  <header class="series-bar">
+    <a class="series-brand" href="./"><span aria-hidden="true">3D</span> ATLAS / FIELDNOTES</a>
+    <nav class="series-nav" aria-label="관련 강의">
+      <a href="https://kobong8.github.io/lecture-devops/">DevOps</a>
+    </nav>
+    <div class="series-tools">
+      <button type="button" data-theme-toggle hidden>다크 모드</button>
       <a class="button" href="./labs.html">3D 실습실</a>
     </div>
+  </header>
+  <main class="atlas">
     <section class="intro curriculum-intro">
       <div>
-        <h1>공간을<br>이해하는 기술</h1>
-        <p>좌표와 메시를 이해하고, 화면에 도형을 그립니다. 미로 탐색과 블록 배치에도 도전해 보세요.</p>
-        <a class="button primary" href="#tracks">강의 탐색</a>
+        <h1>공간을<br><em>이해하는 기술</em></h1>
+        <p>좌표와 메시를 이해하고 화면에 도형을 그립니다. 미로 탐색과 블록 배치에도 도전해 보세요.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#present/track-01">학습 시작하기 <span aria-hidden="true">↗</span></a>
+          <a class="button" href="#tracks">강의 목록</a>
+        </div>
       </div>
-      <div class="knowledge-map" aria-label="개념 지도">
-        <a href="#track-02">좌표와 변환</a>
-        <a href="#track-03">기하와 메시</a>
-        <a href="#track-05">공간 질의</a>
-        <a href="#track-09">GPU 렌더링</a>
-        <a href="#track-12">경로 탐색</a>
-        <a href="#track-15">디지털 트윈</a>
-      </div>
+      <nav class="learning-path" aria-label="학습 순서">
+        <h2>학습 순서</h2>
+        <ol>
+          <li><a href="#stage-basics"><strong>기초</strong><span>좌표 · 메시 · 충돌</span></a></li>
+          <li><a href="#stage-render"><strong>렌더링과 탐색</strong><span>GPU · 길찾기 · 물리</span></a></li>
+          <li><a href="#stage-apply"><strong>구현과 검증</strong><span>데이터 · 편집 · 품질</span></a></li>
+        </ol>
+      </nav>
     </section>
     <section id="tracks" aria-labelledby="tracks-title">
       <div class="section-heading">
         <h2 id="tracks-title">20개 학습 트랙</h2>
-        <label for="track-query">강의 검색</label>
-        <input type="search" id="track-query" placeholder="예: BVH, NavMesh, BIM">
+        <div class="directory-search">
+          <label for="track-query">강의 검색</label>
+          <input type="search" id="track-query" placeholder="예: BVH, NavMesh">
+        </div>
       </div>
       <p id="track-results" role="status" hidden></p>
-      <ul class="track-grid">
-        <li data-track="track-01"><a href="#track-01">01. 3D의 기초와 수학</a></li>
-<li data-track="track-02"><a href="#track-02">02. 좌표계와 변환</a></li>
-<li data-track="track-03"><a href="#track-03">03. 기하와 토폴로지</a></li>
-<li data-track="track-04"><a href="#track-04">04. 메시 생성과 편집</a></li>
-<li data-track="track-05"><a href="#track-05">05. 경계와 공간 질의</a></li>
-<li data-track="track-06"><a href="#track-06">06. 충돌·접촉·겹침</a></li>
-<li data-track="track-07"><a href="#track-07">07. 카메라와 투영</a></li>
-<li data-track="track-08"><a href="#track-08">08. 빛·재질·색</a></li>
-<li data-track="track-09"><a href="#track-09">09. 렌더링 파이프라인</a></li>
-<li data-track="track-10"><a href="#track-10">10. GPU 성능 최적화</a></li>
-<li data-track="track-11"><a href="#track-11">11. 복셀과 공간 이산화</a></li>
-<li data-track="track-12"><a href="#track-12">12. 길찾기와 내비게이션</a></li>
-<li data-track="track-13"><a href="#track-13">13. 공간 최적화와 배치</a></li>
-<li data-track="track-14"><a href="#track-14">14. 물리와 애니메이션</a></li>
-<li data-track="track-15"><a href="#track-15">15. BIM·CAD·GIS·디지털 트윈</a></li>
-<li data-track="track-16"><a href="#track-16">16. 3D 데이터 파이프라인</a></li>
-<li data-track="track-17"><a href="#track-17">17. 상호작용과 편집기</a></li>
-<li data-track="track-18"><a href="#track-18">18. 시각화와 분석</a></li>
-<li data-track="track-19"><a href="#track-19">19. 가상 장면에서 문제 풀기</a></li>
-<li data-track="track-20"><a href="#track-20">20. 품질·보안·접근성</a></li>
-      </ul>
+      <section class="track-group" id="stage-basics"><h3>좌표와 공간의 기초</h3><ul class="track-grid"><li data-track="track-01"><a href="#present/track-01">
+        <span class="track-number">01</span>
+        <strong>3D의 기초와 수학</strong>
+        <span class="track-description">벡터, 행렬과 회전의 기본 계산</span>
+      </a></li>
+<li data-track="track-02"><a href="#present/track-02">
+        <span class="track-number">02</span>
+        <strong>좌표계와 변환</strong>
+        <span class="track-description">로컬 좌표에서 화면 픽셀까지</span>
+      </a></li>
+<li data-track="track-03"><a href="#present/track-03">
+        <span class="track-number">03</span>
+        <strong>기하와 토폴로지</strong>
+        <span class="track-description">정점과 인덱스로 면을 구성하는 원리</span>
+      </a></li>
+<li data-track="track-04"><a href="#present/track-04">
+        <span class="track-number">04</span>
+        <strong>메시 생성과 편집</strong>
+        <span class="track-description">단면을 밀고 메시를 편집하는 방법</span>
+      </a></li>
+<li data-track="track-05"><a href="#present/track-05">
+        <span class="track-number">05</span>
+        <strong>경계와 공간 질의</strong>
+        <span class="track-description">경계 상자와 공간 인덱스로 후보 줄이기</span>
+      </a></li>
+<li data-track="track-06"><a href="#present/track-06">
+        <span class="track-number">06</span>
+        <strong>충돌·접촉·겹침</strong>
+        <span class="track-description">접촉·겹침·통과 여부 판정</span>
+      </a></li>
+<li data-track="track-07"><a href="#present/track-07">
+        <span class="track-number">07</span>
+        <strong>카메라와 투영</strong>
+        <span class="track-description">시야각, 투영과 화면 선택</span>
+      </a></li></ul></section>
+<section class="track-group" id="stage-render"><h3>렌더링과 공간 탐색</h3><ul class="track-grid"><li data-track="track-08"><a href="#present/track-08">
+        <span class="track-number">08</span>
+        <strong>빛·재질·색</strong>
+        <span class="track-description">반사, 그림자와 화면 색</span>
+      </a></li>
+<li data-track="track-09"><a href="#present/track-09">
+        <span class="track-number">09</span>
+        <strong>렌더링 파이프라인</strong>
+        <span class="track-description">정점 처리에서 화면 출력까지</span>
+      </a></li>
+<li data-track="track-10"><a href="#present/track-10">
+        <span class="track-number">10</span>
+        <strong>GPU 성능 최적화</strong>
+        <span class="track-description">인스턴싱과 프레임 성능 측정</span>
+      </a></li>
+<li data-track="track-11"><a href="#present/track-11">
+        <span class="track-number">11</span>
+        <strong>복셀과 공간 이산화</strong>
+        <span class="track-description">격자로 나눈 공간과 해상도</span>
+      </a></li>
+<li data-track="track-12"><a href="#present/track-12">
+        <span class="track-number">12</span>
+        <strong>길찾기와 내비게이션</strong>
+        <span class="track-description">A*와 Dijkstra로 경로 비교</span>
+      </a></li>
+<li data-track="track-13"><a href="#present/track-13">
+        <span class="track-number">13</span>
+        <strong>공간 최적화와 배치</strong>
+        <span class="track-description">제약을 충족하는 배치 후보 찾기</span>
+      </a></li>
+<li data-track="track-14"><a href="#present/track-14">
+        <span class="track-number">14</span>
+        <strong>물리와 애니메이션</strong>
+        <span class="track-description">고정 시간 간격과 애니메이션</span>
+      </a></li></ul></section>
+<section class="track-group" id="stage-apply"><h3>데이터, 구현과 검증</h3><ul class="track-grid"><li data-track="track-15"><a href="#present/track-15">
+        <span class="track-number">15</span>
+        <strong>BIM·CAD·GIS·디지털 트윈</strong>
+        <span class="track-description">모형, 공간 좌표와 객체 데이터 연결</span>
+      </a></li>
+<li data-track="track-16"><a href="#present/track-16">
+        <span class="track-number">16</span>
+        <strong>3D 데이터 파이프라인</strong>
+        <span class="track-description">3D 파일의 변환, 압축과 로딩</span>
+      </a></li>
+<li data-track="track-17"><a href="#present/track-17">
+        <span class="track-number">17</span>
+        <strong>상호작용과 편집기</strong>
+        <span class="track-description">객체 선택, 스냅과 편집 기록</span>
+      </a></li>
+<li data-track="track-18"><a href="#present/track-18">
+        <span class="track-number">18</span>
+        <strong>시각화와 분석</strong>
+        <span class="track-description">시야, 열지도와 거리 분석</span>
+      </a></li>
+<li data-track="track-19"><a href="#present/track-19">
+        <span class="track-number">19</span>
+        <strong>가상 장면에서 문제 풀기</strong>
+        <span class="track-description">가상 장면에서 결과를 검증하는 방법</span>
+      </a></li>
+<li data-track="track-20"><a href="#present/track-20">
+        <span class="track-number">20</span>
+        <strong>품질·보안·접근성</strong>
+        <span class="track-description">테스트, 성능과 접근성 점검</span>
+      </a></li></ul></section>
     </section>
     <section class="projects" aria-labelledby="projects-title">
       <h2 id="projects-title">응용 프로젝트</h2>
@@ -72,6 +162,12 @@
     </section>
     <div class="course-layout">
       <nav class="course-outline" aria-label="전체 강의 목차">
+        <div class="reader-brand">
+          <a class="series-brand" href="./"><span aria-hidden="true">3D</span> 3D Engineering Atlas</a>
+          <a class="button" href="#tracks">강의 목록</a>
+          <button type="button" data-theme-toggle hidden>다크 모드</button>
+        </div>
+        <h2>강의 목차</h2>
         <ol><li><a href="#principles">학습 순서와 표기</a></li>
 <li><a href="#map">개념 지도</a></li>
 <li><a href="#track-01">01. 3D의 기초와 수학</a></li>
@@ -103,7 +199,8 @@
       </nav>
       <div class="course-main">
         <div class="reading-tools">
-          <label for="chapter-select">단원 이동</label>
+          <a class="button reader-home" href="#tracks">강의 목록</a>
+          <label class="sr-only" for="chapter-select">단원 이동</label>
           <select id="chapter-select"><option value="principles">학습 순서와 표기</option>
 <option value="map">개념 지도</option>
 <option value="track-01">01. 3D의 기초와 수학</option>
@@ -133,7 +230,10 @@
 <option value="track-25">25. 종합 과제: 가상 도형 장면 검증하기</option>
 <option value="track-26">26. 참고문헌 및 공식 기술 자료</option></select>
           <button id="reading-mode" aria-pressed="false">발표 모드</button>
+          <button type="button" class="reader-theme" data-theme-toggle hidden>다크 모드</button>
+          <button type="button" id="reader-focus" aria-pressed="false" hidden>집중 모드 <kbd>F</kbd></button>
         </div>
+        <progress id="chapter-progress" aria-label="발표 진행률" hidden></progress>
         <div id="curriculum-lessons"><article class="chapter course" id="principles" tabindex="-1">
     <h2>학습 순서와 표기</h2>
     <div class="body-blocks"><ul>
@@ -1506,9 +1606,11 @@ B      [────────]</pre></figure>
 </div>
   </article></div>
         <nav id="chapter-controls" aria-label="발표 단원 이동" hidden>
-          <button id="chapter-previous">이전</button>
           <span id="chapter-position" aria-live="polite"></span>
-          <button id="chapter-next">다음</button>
+          <div class="reader-paging">
+            <button id="chapter-previous">← 이전</button>
+            <button id="chapter-next">다음 →</button>
+          </div>
         </nav>
       </div>
     </div>

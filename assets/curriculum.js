@@ -11,6 +11,12 @@ const controls = document.querySelector("#chapter-controls");
 const previous = document.querySelector("#chapter-previous");
 const next = document.querySelector("#chapter-next");
 const position = document.querySelector("#chapter-position");
+const progress = document.querySelector("#chapter-progress");
+const viewport = document.querySelector("#curriculum-lessons");
+const focusButton = document.querySelector("#reader-focus");
+const outline = [...document.querySelectorAll(".course-outline ol a")];
+const groups = [...document.querySelectorAll(".track-group")];
+progress.max = courses.length;
 let active = 0;
 
 query.addEventListener("input", () => {
@@ -20,6 +26,7 @@ query.addEventListener("input", () => {
     item.hidden = !terms.every(term => text.includes(term));
     if (!item.hidden) found++;
   }
+  for (const group of groups) group.hidden = !group.querySelector("[data-track]:not([hidden])");
   results.hidden = terms.length === 0;
   results.textContent = found ? `${found}개 트랙` : "일치하는 트랙이 없습니다.";
 });
@@ -34,9 +41,18 @@ function locationState() {
 function sync() {
   const { presenting, index } = locationState();
   if (index >= 0) active = index;
+  const wasPresenting = document.body.classList.contains("course-presentation");
   document.body.classList.toggle("course-presentation", presenting);
   select.value = courses[active].id;
   controls.hidden = !presenting;
+  focusButton.hidden = !presenting;
+  if (!presenting) setFocus(false);
+  progress.hidden = !presenting;
+  progress.value = active + 1;
+  outline.forEach((link, index) => {
+    if (index === active) link.setAttribute("aria-current", "location");
+    else link.removeAttribute("aria-current");
+  });
   mode.setAttribute("aria-pressed", String(presenting));
   mode.textContent = presenting ? "스크롤 모드" : "발표 모드";
   courses.forEach((course, index) => {
@@ -45,14 +61,34 @@ function sync() {
   previous.disabled = active === 0;
   next.disabled = active === courses.length - 1;
   position.textContent = `${active + 1} / ${courses.length}`;
-  if (presenting) courses[active].focus({ preventScroll: true });
-  if (index >= 0) courses[index].scrollIntoView({ block: "start" });
+  if (presenting) {
+    viewport.scrollTop = 0;
+    courses[active].focus({ preventScroll: true });
+    const link = outline[active];
+    const rail = link.closest("nav");
+    if (link.offsetTop < rail.scrollTop || link.offsetTop + link.offsetHeight > rail.scrollTop + rail.clientHeight) {
+      rail.scrollTop = link.offsetTop - rail.clientHeight / 2;
+    }
+  } else if (index >= 0) {
+    courses[index].scrollIntoView({ block: "start" });
+  } else if (wasPresenting) {
+    document.getElementById(location.hash.slice(1))?.scrollIntoView();
+  }
 }
 function go(index, presenting = locationState().presenting) {
   if (index < 0 || index >= courses.length) return;
   location.hash = `${presenting ? "present/" : ""}${courses[index].id}`;
 }
 function move(offset) { go(active + offset); }
+
+function setFocus(enabled) {
+  document.body.classList.toggle("reader-focused", enabled);
+  focusButton.setAttribute("aria-pressed", String(enabled));
+}
+function toggleFocus() {
+  setFocus(focusButton.getAttribute("aria-pressed") !== "true");
+}
+focusButton.addEventListener("click", toggleFocus);
 
 previous.addEventListener("click", () => move(-1));
 next.addEventListener("click", () => move(1));
@@ -64,10 +100,21 @@ mode.addEventListener("click", () => {
   go(active, !locationState().presenting);
 });
 select.addEventListener("change", () => go(select.selectedIndex));
+for (const [index, link] of outline.entries()) {
+  link.addEventListener("click", event => {
+    if (!locationState().presenting || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    go(index);
+  });
+}
 window.addEventListener("hashchange", sync);
 document.addEventListener("keydown", event => {
   if (!locationState().presenting || event.altKey || event.ctrlKey || event.metaKey ||
       event.target.closest("input, select, textarea, button, a")) return;
+  if (event.key.toLowerCase() === "f") {
+    event.preventDefault();
+    toggleFocus();
+  }
   if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
     event.preventDefault();
     move(event.key === "ArrowLeft" ? -1 : 1);
