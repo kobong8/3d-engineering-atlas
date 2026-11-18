@@ -1,112 +1,37 @@
 :root {
-  --series-navy: #111a30;
-  --series-ink: #eef2ff;
-  --series-border: #354462;
-  --series-button: #202c46;
-  --card-accent: #5265de;
-  --card-teal: #34a49b;
-  --card-violet: #9276d3;
-  --panel-shadow: 0 5px 18px #17233e06;
+  --paper: #f8f9fc;
+  --glow: #e9e3ff;
+  --ink: #18263d;
+  --accent: #374caa;
 }
-html[data-theme="dark"] { --panel-shadow: none; }
 [hidden] { display: none !important; }
-.series-bar {
-  margin: 0;
-  min-height: 76px;
-  padding: 12px clamp(20px, 3.35vw, 48px);
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  gap: 10px 24px;
-  background: var(--series-navy);
-  color: var(--series-ink);
-  border: 0;
-}
-.series-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  font: 700 .875rem/1.3 Consolas, monospace;
-}
-.series-brand span {
-  display: grid;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  background: var(--card-accent);
-  color: #fff;
-  border-radius: 6px;
-}
-.series-nav, .series-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.series-nav a { padding: 8px; font-size: .81rem; text-decoration: none; color: #c5d0ed; }
-.series-nav a:hover { text-decoration: underline; color: #fff; }
-.series-tools { margin-left: auto; }
-.series-tools :is(button, .button) {
-  padding: 8px 11px;
-  background: var(--series-button);
-  border-color: var(--series-border);
-  color: var(--series-ink);
-  font-size: .78rem;
-}
-.series-tools :is(button, .button):hover { background: #2f3d5b; }
-.atlas { display: block; max-width: 1312px; padding-block: 34px 58px; }
-.intro { margin: 15px 0 36px; padding: 0; }
+.atlas { display: block; max-width: 1120px; padding-block: 28px 64px; }
+.masthead { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.wordmark { font-size: 18px; }
+.intro { margin: 44px 0 30px; padding: clamp(24px, 6vw, 62px); border-radius: 18px; background: #d9ecff; }
 .intro h1 { margin-top: 0; }
-.intro p { color: var(--muted); }
-.intro .lab-index { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
-.intro .lab-index a {
-  padding: 8px 12px;
-  text-decoration: none;
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 7px;
-}
-.intro .lab-index a:hover { background: var(--soft); }
-.lesson {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
-  align-items: center;
-  gap: 28px;
-  margin-bottom: 20px;
-  padding: 24px;
-  border: 1px solid var(--line);
-  border-top: 3px solid var(--card-accent);
-  border-radius: 10px;
-  background: var(--white);
-  box-shadow: var(--panel-shadow);
-  scroll-margin-top: 18px;
-}
-.lesson:nth-child(3n + 2) { border-top-color: var(--card-teal); }
-.lesson:nth-child(3n + 3) { border-top-color: var(--card-violet); }
+.intro nav { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.intro a { text-decoration: none; padding: 9px 14px; border-radius: 7px; background: #fff; }
+.intro a:hover { text-decoration: underline; }
+.lesson { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); align-items: center; gap: 30px; margin-bottom: 22px; padding: 26px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
 .lesson h2 { margin: 0; }
 .lesson p { color: var(--muted); }
-.lesson canvas { width: 100%; height: 300px; display: block; touch-action: none; border-radius: 8px; background: #e8f1fb; }
+.lesson canvas { width: 100%; height: 300px; display: block; touch-action: none; border-radius: 10px; background: #e8f1fb; }
 .lesson:nth-child(2) canvas { background: #fff1b8; }
 .lesson:nth-child(3) canvas { background: #e9e3ff; }
 .lesson input { accent-color: var(--accent); max-width: 100%; vertical-align: middle; }
 .lesson output { display: inline-block; min-width: 3.5ch; font-variant-numeric: tabular-nums; }
-.lesson select {
-  max-width: 100%;
-  color: var(--ink);
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 7px;
-  padding: 8px;
-}
-.lesson .reset-lab { margin-top: 8px; }
-.lab-fallback { min-height: 100px; padding: 20px; border-radius: 8px; background: var(--soft); }
-.lesson canvas[data-plan] { touch-action: auto; }
-.lab-toolbar { display: flex; justify-content: flex-end; padding-bottom: 12px; }
-.roadmap { padding: 20px 24px; border: 1px solid var(--line); border-left: 3px solid var(--card-accent); border-radius: 0 8px 8px 0; background: var(--soft); }
+.roadmap { padding: 22px 26px; border-radius: 14px; background: #f8e4ed; }
 .roadmap h2 { margin: 0; }
 .presentation .intro, .presentation .roadmap { display: none; }
+.presentation #lessons { margin-top: 30px; }
 .slide-controls { margin: 0; }
-#lab-error { color: var(--ink); border-left: 3px solid #d46b76; padding: 10px 14px; background: var(--soft); }
+#lab-error { color: #962733; }
 @media (max-width: 760px) {
-  .series-bar { gap: 8px 12px; }
-  .series-brand { flex-basis: 100%; }
-  .atlas { padding-block: 25px 44px; }
   .lesson { grid-template-columns: 1fr; gap: 12px; padding: 18px; }
   .lesson canvas { height: 240px; }
 }
+.lesson select { max-width: 100%; color: var(--ink); }
+.lesson .reset-lab { margin-top: 8px; }
+.lab-fallback { min-height: 100px; padding: 20px; border-radius: 8px; background: #e8f1fb; }
+.lesson canvas[data-plan] { touch-action: auto; }

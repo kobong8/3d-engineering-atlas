@@ -11,10 +11,6 @@ const controls = document.querySelector("#chapter-controls");
 const previous = document.querySelector("#chapter-previous");
 const next = document.querySelector("#chapter-next");
 const position = document.querySelector("#chapter-position");
-const progress = document.querySelector("#chapter-progress");
-const outline = [...document.querySelectorAll(".course-outline a")];
-const groups = [...document.querySelectorAll(".track-group")];
-progress.max = courses.length;
 let active = 0;
 
 query.addEventListener("input", () => {
@@ -24,7 +20,6 @@ query.addEventListener("input", () => {
     item.hidden = !terms.every(term => text.includes(term));
     if (!item.hidden) found++;
   }
-  for (const group of groups) group.hidden = !group.querySelector("[data-track]:not([hidden])");
   results.hidden = terms.length === 0;
   results.textContent = found ? `${found}개 트랙` : "일치하는 트랙이 없습니다.";
 });
@@ -42,12 +37,6 @@ function sync() {
   document.body.classList.toggle("course-presentation", presenting);
   select.value = courses[active].id;
   controls.hidden = !presenting;
-  progress.hidden = !presenting;
-  progress.value = active + 1;
-  outline.forEach((link, index) => {
-    if (index === active) link.setAttribute("aria-current", "location");
-    else link.removeAttribute("aria-current");
-  });
   mode.setAttribute("aria-pressed", String(presenting));
   mode.textContent = presenting ? "스크롤 모드" : "발표 모드";
   courses.forEach((course, index) => {
@@ -75,13 +64,6 @@ mode.addEventListener("click", () => {
   go(active, !locationState().presenting);
 });
 select.addEventListener("change", () => go(select.selectedIndex));
-for (const [index, link] of outline.entries()) {
-  link.addEventListener("click", event => {
-    if (!locationState().presenting || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    event.preventDefault();
-    go(index);
-  });
-}
 window.addEventListener("hashchange", sync);
 document.addEventListener("keydown", event => {
   if (!locationState().presenting || event.altKey || event.ctrlKey || event.metaKey ||
