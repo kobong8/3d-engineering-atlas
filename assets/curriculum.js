@@ -10,6 +10,7 @@ const next = document.querySelector("#chapter-next");
 const position = document.querySelector("#chapter-position");
 const progress = document.querySelector("#chapter-progress");
 const viewport = document.querySelector("#curriculum-lessons");
+const reader = viewport.closest(".course-layout");
 const focusButton = document.querySelector("#reader-focus");
 const menu = document.querySelector("#reader-menu");
 const overlay = document.querySelector("#reader-overlay");
@@ -140,9 +141,11 @@ function sync() {
   const last = state;
   state = route();
   const { course, presenting, module, index } = state;
+  reader.hidden = !course;
+  document.body.classList.toggle("course-reading", Boolean(course) && !presenting);
   document.body.classList.toggle("course-presentation", presenting);
   for (const item of courses) {
-    item.hidden = presenting && item !== course;
+    item.hidden = item !== course;
     for (const [i, page] of slides.get(item).pages.entries()) page.section.hidden = presenting && i !== index;
   }
   chapterOutline.hidden = presenting;
@@ -195,8 +198,8 @@ function sync() {
     select.replaceChildren(...chapterOptions);
     if (course) {
       select.value = course.id;
-      course.scrollIntoView();
-    } else if (last?.presenting) {
+      window.scrollTo(0, 0);
+    } else if (last?.course) {
       document.getElementById(location.hash.slice(1))?.scrollIntoView();
     }
   }

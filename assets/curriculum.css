@@ -106,7 +106,7 @@
 .course-tools, #chapter-controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
 .course-tools a { background: var(--soft); }
 .source-link, .manuscript { font-size: .875rem; color: var(--muted); }
-.course-presentation .curriculum-intro, .course-presentation #tracks, .course-presentation .projects { display: none; }
+:is(.course-reading, .course-presentation) :is(.curriculum-intro, #tracks, .projects) { display: none; }
 #chapter-progress { display: block; width: 100%; height: 4px; margin: 0 0 10px; accent-color: var(--accent); }
 #chapter-progress::-webkit-progress-bar { background: var(--line); }
 #chapter-progress::-webkit-progress-value { background: var(--accent); }
@@ -138,6 +138,7 @@
 
 /* Full-screen reader with a separate scrolling lecture and persistent navigation. */
 .reader-brand, .reader-home { display: none; }
+.course-reading .reader-home { display: inline-flex; }
 .course-presentation { height: 100dvh; overflow: hidden; }
 .course-presentation .series-bar, .course-presentation .manuscript { display: none; }
 .course-presentation .atlas { max-width: none; height: 100%; padding: 0; }
