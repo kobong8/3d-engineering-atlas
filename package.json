@@ -1,0 +1,16 @@
+{
+  "name": "3d-engineering-atlas",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "vendor": "node scripts/vendor.mjs",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "babylonjs": "8.32.0"
+  },
+  "devDependencies": {
+    "markdown-it": "14.1.0"
+  }
+}

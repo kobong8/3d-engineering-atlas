@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3D 실습실 · 3D Engineering Atlas</title>
+  <link rel="stylesheet" href="./assets/kobong.css">
+  <link rel="stylesheet" href="./assets/atlas.css">
+  <script defer src="./assets/vendor/babylon.js"></script>
+  <script type="module" src="./assets/atlas.js"></script>
+</head>
+<body>
+  <a class="skip" href="#lessons">실습으로 건너뛰기</a>
+  <main class="atlas">
+    <div class="masthead">
+      <a class="wordmark" href="./">KOBONG / 3D ATLAS</a>
+      <button id="mode" aria-pressed="false">발표 모드</button>
+    </div>
+    <section class="intro">
+      <h1>3D 실습실</h1>
+      <p>3D 객체가 좌표와 삼각형으로 표현되는 방식부터 공간 분석, 렌더링, 시뮬레이션까지 학습합니다.</p>
+      <nav aria-label="실습 목차">
+        <a href="#coordinates">좌표계</a>
+        <a href="#mesh">Vertex / Index</a>
+        <a href="#bounds">Bounding Box</a>
+
+        <a href="#collision">AABB 교차</a>
+        <a href="#camera">카메라 시야각</a>
+        <a href="#light">빛과 재질</a>
+        <a href="#instances">Thin Instance 비교</a>
+        <a href="#path">격자 길찾기</a>
+        <a href="#layout">가구 배치 후보</a>
+      </nav>
+    </section>
+    <div id="lessons">
+      <section class="lesson" id="coordinates">
+        <div>
+          <h2>좌표계와 변환</h2>
+          <p>빨강은 X, 초록은 Y, 파랑은 Z를 나타냅니다. 이 예제는 엔진 기본값인 왼손 좌표계를 사용합니다.</p>
+          <p>슬라이더로 메쉬를 월드 X축 방향으로 이동해 보세요. 메쉬의 로컬 정점 좌표는 그대로 유지됩니다.</p>
+          <label for="position">월드 X 위치</label>
+          <input id="position" type="range" min="-3" max="3" step="0.1" value="0">
+          <output for="position" id="position-value">0.0</output>
+          <p id="selection" role="status">상자를 클릭해 선택하세요.</p>
+        </div>
+        <canvas aria-label="XYZ 좌표계와 이동 가능한 상자" id="coordinates-view"></canvas>
+        <p class="lab-fallback" hidden>예시: X를 2로 설정하면 상자의 중심은 월드 (2, 0, 0)으로 이동합니다.</p>
+      </section>
+      <section class="lesson" id="mesh">
+        <div>
+          <h2>Vertex와 Index</h2>
+          <p>Vertex는 정점의 위치를 저장합니다. Index는 정점 배열의 번호를 세 개씩 참조해 삼각형을 구성합니다.</p>
+          <p>이 사각형은 정점 네 개를 공유하는 삼각형 두 개로 구성됩니다. 대각선을 바꾸면 정점은 유지되고 삼각형의 연결이 바뀝니다.</p>
+          <button id="diagonal">대각선 바꾸기</button>
+          <p><code id="indices" aria-live="polite">[0, 1, 2, 0, 2, 3]</code></p>
+        </div>
+        <canvas aria-label="정점 네 개와 삼각형 두 개로 구성한 메쉬" id="mesh-view"></canvas>
+        <p class="lab-fallback" hidden>예시: 대각선 (0, 2)를 (1, 3)으로 바꾸면 참조 배열이 [0, 1, 3, 1, 2, 3]이 됩니다.</p>
+      </section>
+      <section class="lesson" id="bounds">
+        <div>
+          <h2>Bounding Box</h2>
+          <p>AABB는 월드 축에 정렬된 경계 상자입니다. 물체를 회전하면 상자의 방향은 유지되고 축별 최솟값과 최댓값이 바뀝니다. OBB는 물체 방향을 따라 회전합니다.</p>
+          <label for="rotation">Y축 회전</label>
+          <input id="rotation" type="range" min="0" max="90" step="1" value="0">
+          <output for="rotation" id="rotation-value">0°</output>
+          <p><label><input type="checkbox" id="show-obb"> OBB 비교</label></p>
+          <p><code id="dimensions">X 3.00 · Z 1.30</code></p>
+        </div>
+        <canvas aria-label="회전하는 물체와 월드 축 정렬 경계 상자" id="bounds-view"></canvas>
+        <p class="lab-fallback" hidden>예시: 90° 회전 후 가로 3.00과 깊이 1.30이 서로 바뀝니다.</p>
+      </section>
+      <section class="lesson" id="collision">
+        <div>
+          <h2>AABB 교차</h2>
+          <p>월드 축별 구간이 모두 만나면 두 AABB가 교차합니다. 이 실습은 경계가 닿는 경우도 후보에 포함합니다.</p>
+          <label for="separation">중심 간 X 거리</label> <input id="separation" type="range" min="0" max="5" step="0.1" value="2.6"><p id="collision-status" role="status"></p>
+        </div>
+        <canvas aria-label="AABB 교차 그림" id="collision-view"></canvas>
+        <p class="lab-fallback" hidden>예시: 폭이 2인 두 상자의 중심 거리가 2이면 경계가 닿습니다.</p>
+      </section>
+      <section class="lesson" id="camera">
+        <div>
+          <h2>카메라 시야각</h2>
+          <p>카메라 위치를 고정한 채 세로 시야각을 바꿔 원근 투영 범위를 비교하세요.</p>
+          <label for="fov">세로 FOV</label> <input id="fov" type="range" min="25" max="100" value="50"><output id="fov-value" for="fov">50°</output>
+        </div>
+        <canvas aria-label="카메라 시야각 그림" id="camera-view"></canvas>
+        <p class="lab-fallback" hidden>예시: 카메라 거리와 비율이 같을 때 FOV 90°는 45°보다 넓은 범위를 보여 줍니다.</p>
+      </section>
+      <section class="lesson" id="light">
+        <div>
+          <h2>빛과 재질</h2>
+          <p>같은 표면에서 거칠기와 조명 세기를 바꿔 반사의 퍼짐을 비교하세요.</p>
+          <label for="roughness">거칠기</label> <input id="roughness" type="range" min="0.05" max="1" step="0.05" value="0.35"><br><label for="intensity">조명 세기</label> <input id="intensity" type="range" min="0" max="3" step="0.1" value="1.8">
+        </div>
+        <canvas aria-label="빛과 재질 그림" id="light-view"></canvas>
+        <p class="lab-fallback" hidden>예시: 거칠기가 작으면 반사 하이라이트가 더 좁게 나타납니다.</p>
+      </section>
+      <section class="lesson" id="instances">
+        <div>
+          <h2>Thin Instance 비교</h2>
+          <p>같은 상자와 카메라를 사용해 개별 메시와 Thin Instance의 draw calls를 비교합니다. 프레임 시간은 화면에 표시된 최근 샘플을 사용합니다.</p>
+          <label for="instance-mode">렌더링 방식</label> <select id="instance-mode"><option value="meshes">개별 메시</option><option value="thin">Thin Instance</option></select><p id="instance-metrics"></p>
+        </div>
+        <canvas aria-label="Thin Instance 비교 그림" id="instances-view"></canvas>
+        <p class="lab-fallback" hidden>예시: 같은 재질의 상자 144개를 한 Thin Instance 배치로 그릴 수 있습니다.</p>
+      </section>
+      <section class="lesson" id="path">
+        <div>
+          <h2>격자 길찾기</h2>
+          <p>4방향으로 이동하는 평면 격자에서 A*와 Dijkstra가 방문하는 칸을 비교하세요. 장애물과 경로는 각각 짙은 회색과 파란색으로 표시합니다.</p>
+          <label for="path-method">탐색 방법</label> <select id="path-method"><option value="astar">A*</option><option value="dijkstra">Dijkstra</option></select><p><label><input type="checkbox" id="closed-door">통로 닫기</label></p><p id="path-status" role="status"></p>
+        </div>
+        <canvas aria-label="격자 길찾기 그림" id="path-view"></canvas>
+      </section>
+      <section class="lesson" id="layout">
+        <div>
+          <h2>가구 배치 후보</h2>
+          <p>격자 후보 중 방과 가구의 경계, 출입문 앞 통로를 지키는 배치를 비교합니다. 이 예제에서는 겹침을 피한 후보를 창문과의 거리로 정렬합니다.</p>
+          <label for="room-width">방 폭</label> <input id="room-width" type="range" min="4" max="10" value="8"><br><label for="layout-rank">배치 순위</label> <select id="layout-rank"><option value="0">1위</option><option value="1">2위</option><option value="2">3위</option></select><p id="layout-status" role="status"></p>
+        </div>
+        <canvas aria-label="가구 배치 후보 그림" id="layout-view"></canvas>
+      </section>
+    </div>
+    <p id="lab-error" role="alert" hidden>일부 3D 실습을 시작할 수 없습니다. 각 실습에 표시된 설명과 예시로 결과를 확인할 수 있습니다.</p>
+    <footer class="slide-controls" hidden>
+      <button id="previous">이전</button><span id="page" aria-live="polite"></span><button id="next">다음</button>
+    </footer>
+    <section class="roadmap">
+      <h2>다음 학습 주제</h2>
+      <p>공간 분석과 충돌, 카메라와 재질, GPU와 인스턴싱, Voxel과 NavMesh, 디지털 트윈</p>
+      <a href="./#tracks">전체 강의 열기</a>
+    </section>
+  </main>
+</body>
+</html>

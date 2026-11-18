@@ -20,3 +20,8 @@ def index():
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+@app.get("/labs.html", include_in_schema=False)
+def labs():
+    return FileResponse(ROOT / "labs.html", headers={"Cache-Control": "no-cache"})

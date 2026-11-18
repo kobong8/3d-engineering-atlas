@@ -31,3 +31,7 @@
   .lesson { grid-template-columns: 1fr; gap: 12px; padding: 18px; }
   .lesson canvas { height: 240px; }
 }
+.lesson select { max-width: 100%; color: var(--ink); }
+.lesson .reset-lab { margin-top: 8px; }
+.lab-fallback { min-height: 100px; padding: 20px; border-radius: 8px; background: #e8f1fb; }
+.lesson canvas[data-plan] { touch-action: auto; }
