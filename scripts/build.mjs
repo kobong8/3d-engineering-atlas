@@ -3,10 +3,17 @@ import MarkdownIt from "markdown-it";
 
 const md = new MarkdownIt({ html: false, linkify: true });
 const escape = md.utils.escapeHtml;
-const source = readFileSync(new URL("../content/CONTENT.md", import.meta.url), "utf8");
+const source = readFileSync(new URL("../content/LECTURES.md", import.meta.url), "utf8");
 const tokens = md.parse(source, {});
 const headings = tokens.filter(token => token.type === "heading_open" && token.tag === "h2" && token.level === 0);
 const lines = source.split("\n");
+function renderLesson(markdown) {
+  const html = md.render(markdown);
+  return html.replace(
+    /<p><strong>확인 문제\.<\/strong> ([^\n]*?)(?:<\/p>\n<p>| )<strong>해설\.<\/strong> ([^\n]+)<\/p>/g,
+    (_, question, solution) => `<div class="self-check"><p><strong>확인 문제.</strong> ${question}</p><details><summary>해설 보기</summary><p>${solution}</p></details></div>`,
+  );
+}
 const sections = headings.map((heading, index) => {
   const [start] = heading.map;
   const end = headings[index + 1]?.map[0];
@@ -14,7 +21,7 @@ const sections = headings.map((heading, index) => {
   const number = title.match(/^(\d{2})\./)?.[1];
   return {
     title, number, id: number ? `track-${number}` : start === headings[0].map[0] ? "principles" : "map",
-    body: md.render(lines.slice(start + 1, end).join("\n")),
+    body: renderLesson(lines.slice(start + 1, end).join("\n")),
   };
 });
 const tracks = sections.filter(section => Number(section.number) <= 20);
