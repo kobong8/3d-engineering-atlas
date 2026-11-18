@@ -29,7 +29,7 @@
         <a href="#light">빛과 재질</a>
         <a href="#instances">Thin Instance 비교</a>
         <a href="#path">격자 길찾기</a>
-        <a href="#layout">가구 배치 후보</a>
+        <a href="#layout">블록 배치 후보</a>
       </nav>
     </section>
     <div id="lessons">
@@ -116,11 +116,11 @@
       </section>
       <section class="lesson" id="layout">
         <div>
-          <h2>가구 배치 후보</h2>
-          <p>격자 후보 중 방과 가구의 경계, 출입문 앞 통로를 지키는 배치를 비교합니다. 이 예제에서는 겹침을 피한 후보를 창문과의 거리로 정렬합니다.</p>
-          <label for="room-width">방 폭</label> <input id="room-width" type="range" min="4" max="10" value="8"><br><label for="layout-rank">배치 순위</label> <select id="layout-rank"><option value="0">1위</option><option value="1">2위</option><option value="2">3위</option></select><p id="layout-status" role="status"></p>
+          <h2>블록 배치 후보</h2>
+          <p>격자 위에 블록을 놓습니다. 보드 밖으로 나가거나 예약 영역을 침범하면 제외합니다. 나머지는 기준점과의 거리로 정렬합니다.</p>
+          <label for="room-width">보드 폭</label> <input id="room-width" type="range" min="4" max="10" value="8"><br><label for="layout-rank">배치 순위</label> <select id="layout-rank"><option value="0">1위</option><option value="1">2위</option><option value="2">3위</option></select><p id="layout-status" role="status"></p>
         </div>
-        <canvas aria-label="가구 배치 후보 그림" id="layout-view"></canvas>
+        <canvas aria-label="블록 배치 후보 그림" id="layout-view"></canvas>
       </section>
     </div>
     <p id="lab-error" role="alert" hidden>일부 3D 실습을 시작할 수 없습니다. 각 실습에 표시된 설명과 예시로 결과를 확인할 수 있습니다.</p>

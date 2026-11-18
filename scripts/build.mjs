@@ -3,6 +3,19 @@ import MarkdownIt from "markdown-it";
 
 const md = new MarkdownIt({ html: false, linkify: true });
 const escape = md.utils.escapeHtml;
+const renderFence = md.renderer.rules.fence;
+md.renderer.rules.fence = (tokens, index, options, env, renderer) => {
+  const token = tokens[index];
+  if (token.info === "atlas-flow") {
+    const [caption, ...steps] = token.content.trim().split("\n");
+    return `<figure class="lesson-figure"><figcaption>${escape(caption)}</figcaption><ol class="lesson-flow">${steps.map(step => `<li>${escape(step)}</li>`).join("")}</ol></figure>\n`;
+  }
+  if (token.info === "atlas-sketch") {
+    const [caption, ...rows] = token.content.trimEnd().split("\n");
+    return `<figure class="lesson-figure"><figcaption>${escape(caption)}</figcaption><pre class="lesson-sketch">${escape(rows.join("\n"))}</pre></figure>\n`;
+  }
+  return renderFence(tokens, index, options, env, renderer);
+};
 const source = readFileSync(new URL("../content/LECTURES.md", import.meta.url), "utf8");
 const tokens = md.parse(source, {});
 const headings = tokens.filter(token => token.type === "heading_open" && token.tag === "h2" && token.level === 0);
@@ -37,10 +50,10 @@ const labs = {
   "10": [["instances", "Thin Instance 비교"]],
   "11": [["path", "격자 경로 탐색"]],
   "12": [["path", "A*와 Dijkstra"]],
-  "13": [["layout", "가구 배치"]],
+  "13": [["layout", "블록 배치"]],
   "17": [["coordinates", "Ray Picking"]],
   "21": [["path", "A*와 Dijkstra"]],
-  "22": [["layout", "가구 배치"]],
+  "22": [["layout", "블록 배치"]],
 };
 const references = {
   "01": "https://doc.babylonjs.com/typedoc/classes/BABYLON.Vector3",

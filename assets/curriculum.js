@@ -73,7 +73,8 @@ document.addEventListener("keydown", event => {
     move(event.key === "ArrowLeft" ? -1 : 1);
   }
 });
-for (const pre of document.querySelectorAll(".course pre")) {
+for (const code of document.querySelectorAll(".course pre > code")) {
+  const pre = code.parentElement;
   const button = document.createElement("button");
   button.textContent = "코드 복사";
   pre.before(button);

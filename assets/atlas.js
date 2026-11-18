@@ -390,8 +390,8 @@ function buildLayout() {
     drawBox({ min: [room / 2 - 1, depth - 0.12], max: [room / 2 + 1, depth] }, "#447acc");
     plan?.items.forEach((item, index) => drawBox(item, ["#a3bee6", "#dbaac0", "#b8a7dc"][index]));
     document.querySelector("#layout-status").textContent = plan
-      ? `폭 ${room} m · 후보 ${rank + 1}위 · 거리 점수 ${plan.score.toFixed(2)} · 제약 위반 0`
-      : `폭 ${room} m · 해당 순위의 후보 없음`;
+      ? `보드 폭 ${room} m · 후보 ${rank + 1}위 · 거리 점수 ${plan.score.toFixed(2)} · 제약 위반 0`
+      : `보드 폭 ${room} m · 해당 순위의 후보 없음`;
   });
 }
 
