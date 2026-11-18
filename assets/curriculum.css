@@ -210,3 +210,61 @@
   .course-presentation .reading-tools .reader-theme { display: inline-flex; }
   .course-presentation #reader-focus { display: none; }
 }
+
+.lecture-slide { display: contents; }
+.course .lecture-slide > * { margin-block: 20px; }
+.course .lecture-slide > :is(ul, ol) { padding-left: 22px; margin-block: 14px 24px; }
+.course .lecture-slide > :is(ul, ol) li { line-height: 1.6; }
+.reader-action, .reader-hint { display: none; }
+.course-presentation .reader-action { display: inline-flex; }
+.course-presentation #chapter-select { display: none; }
+.course-presentation .reading-tools > :is(button, .button) { gap: 4px; padding: 8px 11px; font-size: .8rem; }
+.course-presentation .reader-home { margin: 0; }
+#reader-breadcrumb { margin-right: auto; font-size: .83rem; color: var(--muted); }
+.slide-outline a { display: flex; gap: 12px; align-items: baseline; padding: 12px 10px; }
+.slide-outline a > span { color: #b5c2ff; font: .72rem Consolas, monospace; }
+.reader-collapsed.course-presentation .course-layout { grid-template-columns: minmax(0, 1fr); }
+.reader-collapsed.course-presentation .course-outline { display: none; }
+#reader-overlay { display: none; }
+.course-presentation .reader-hint { display: inline; color: var(--muted); font-size: .75rem; margin-right: auto; }
+#chapter-controls { justify-content: flex-start; }
+.reader-paging { margin-left: auto; }
+#lecture-search, #link-copy {
+  color: var(--ink);
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 20px;
+  width: min(640px, calc(100vw - 32px));
+  max-height: min(80dvh, 680px);
+}
+:is(#lecture-search, #link-copy)::backdrop { background: #111a3099; }
+.dialog-heading, #lecture-search form { display: flex; align-items: center; gap: 8px; }
+.dialog-heading h2 { margin: 0 auto 0 0; }
+#lecture-search form { margin-top: 16px; flex-wrap: wrap; }
+:is(#lecture-search, #link-copy) input { flex: 1; min-width: 0; padding: 8px; border: 1px solid var(--line); border-radius: 7px; background: var(--paper); color: var(--ink); }
+#link-copy input { width: 100%; margin-top: 12px; }
+#lecture-search ul { padding: 0; list-style: none; }
+#lecture-search li a { display: block; padding: 10px; border-bottom: 1px solid var(--line); }
+@media (max-width: 900px) {
+  .course-presentation #chapter-select { display: block; }
+  .course-presentation #reader-breadcrumb, .course-presentation .reader-hint { display: none; }
+  .course-presentation .reading-tools { flex-wrap: wrap; }
+  .reader-drawer.course-presentation .course-outline {
+    display: block;
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: min(264px, 82vw);
+    z-index: 20;
+    box-shadow: 6px 0 24px #111a3066;
+  }
+  .reader-drawer #reader-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 19;
+    background: #111a307d;
+    border: 0;
+    border-radius: 0;
+  }
+}

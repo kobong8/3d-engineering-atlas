@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="3D 수학, 메시, GPU 렌더링, 공간 탐색과 디지털 트윈을 배우는 Kobong 학습 아틀라스">
   <title>3D Engineering Atlas</title>
-  <script src="./assets/theme.js?v=lecture"></script>
+  <script src="./assets/theme.js?v=slides"></script>
   <link rel="stylesheet" href="./assets/kobong.css">
-  <link rel="stylesheet" href="./assets/atlas.css?v=lecture">
-  <link rel="stylesheet" href="./assets/curriculum.css?v=lecture">
-  <script type="module" src="./assets/curriculum.js?v=lecture"></script>
+  <link rel="stylesheet" href="./assets/atlas.css?v=slides">
+  <link rel="stylesheet" href="./assets/curriculum.css?v=slides">
+  <script type="module" src="./assets/curriculum.js?v=slides"></script>
 </head>
 <body class="curriculum">
   <a class="skip" href="#tracks">강의 목차로 건너뛰기</a>
@@ -19,6 +19,7 @@
       <a href="https://kobong8.github.io/lecture-devops/">DevOps</a>
     </nav>
     <div class="series-tools">
+      <button type="button" data-open-search>자료 검색</button>
       <button type="button" data-theme-toggle hidden>다크 모드</button>
       <a class="button" href="./labs.html">3D 실습실</a>
     </div>
@@ -56,34 +57,41 @@
     <section class="projects" aria-labelledby="projects-title">
       <h2 id="projects-title">응용 프로젝트</h2>
       <div class="project-grid">
-        <a href="#track-21">미로 경로 탐색</a>
-        <a href="#track-22">블록 배치 최적화</a>
-        <a href="#track-23">추가 프로젝트 30선</a>
+        <a href="#present/track-21">미로 경로 탐색</a>
+        <a href="#present/track-22">블록 배치 최적화</a>
+        <a href="#present/track-23">추가 프로젝트 30선</a>
       </div>
     </section>
     <div class="course-layout">
-      <nav class="course-outline" aria-label="전체 강의 목차">
+      <nav id="lecture-outline" class="course-outline" aria-label="전체 강의 목차">
         <div class="reader-brand">
           <a class="series-brand" href="./"><span aria-hidden="true">3D</span> 3D Engineering Atlas</a>
           <a class="button" href="#tracks">강의 목록</a>
           <button type="button" data-theme-toggle hidden>다크 모드</button>
         </div>
         <h2>강의 목차</h2>
-        <ol><!-- OUTLINE --></ol>
+        <ol class="chapter-outline"><!-- OUTLINE --></ol>
+        <ol class="slide-outline" hidden></ol>
       </nav>
       <div class="course-main">
         <div class="reading-tools">
+          <button type="button" id="reader-menu" aria-controls="lecture-outline" aria-label="목차 열기" hidden>☰</button>
+          <span id="reader-breadcrumb" hidden></span>
           <a class="button reader-home" href="#tracks">강의 목록</a>
           <label class="sr-only" for="chapter-select">단원 이동</label>
           <select id="chapter-select"><!-- OPTIONS --></select>
           <button id="reading-mode" aria-pressed="false">발표 모드</button>
           <button type="button" class="reader-theme" data-theme-toggle hidden>다크 모드</button>
+          <button type="button" class="reader-action" data-open-search>자료 검색</button>
+          <button type="button" class="reader-action" id="reader-copy">링크 복사</button>
           <button type="button" id="reader-focus" aria-pressed="false" hidden>집중 모드 <kbd>F</kbd></button>
         </div>
+        <button type="button" id="reader-overlay" aria-label="목차 닫기" hidden></button>
         <progress id="chapter-progress" aria-label="발표 진행률" hidden></progress>
         <div id="curriculum-lessons"><!-- LESSONS --></div>
         <nav id="chapter-controls" aria-label="발표 단원 이동" hidden>
           <span id="chapter-position" aria-live="polite"></span>
+          <span class="reader-hint">← → 이동 · F 집중 모드 · T 테마</span>
           <div class="reader-paging">
             <button id="chapter-previous">← 이전</button>
             <button id="chapter-next">다음 →</button>
@@ -93,5 +101,19 @@
     </div>
     <p class="manuscript"><a href="./content/LECTURES.md" download>강의 노트 다운로드</a></p>
   </main>
+  <dialog id="lecture-search">
+    <div class="dialog-heading"><h2>자료 검색</h2><button type="button" data-close>닫기</button></div>
+    <form>
+      <label for="lecture-query">검색어</label>
+      <input type="search" id="lecture-query" maxlength="200" autocomplete="off" placeholder="예: BVH, 좌표계">
+      <button type="submit">검색</button>
+    </form>
+    <p role="status"></p>
+    <ul></ul>
+  </dialog>
+  <dialog id="link-copy">
+    <div class="dialog-heading"><h2>현재 슬라이드 링크</h2><button type="button" data-close>닫기</button></div>
+    <input aria-label="현재 슬라이드 주소" readonly>
+  </dialog>
 </body>
 </html>
